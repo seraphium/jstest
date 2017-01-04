@@ -6,3 +6,29 @@ body {
 a {
   color: #00B7FF;
 }
+
+a:hover {
+  color: brown;
+  font-weight: bold;
+}
+
+p {
+  font-size:2em;
+}
+
+th,td {
+  width: 10em;
+  padding: 0.5em;
+}
+
+th {
+  border: 1px dotted #669;
+  background-color: bisque;
+}
+tr:nth-child(odd) {
+  background-color: #00B7FF;
+}
+
+tr:nth-child(even) {
+  background-color: aliceblue;
+}
