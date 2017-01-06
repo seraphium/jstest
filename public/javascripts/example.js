@@ -2,6 +2,12 @@
  * Created by zezhang on 2017/1/4.
  */
 
+function move() {
+    var para = document.getElementById("tt");
+    para.style.left = "200px";
+
+}
+
 window.onload = function () {
     var testdiv = document.getElementById("testdiv");
     var para = document.createElement("p");
@@ -11,5 +17,7 @@ window.onload = function () {
     var text = document.createTextNode("hello world");
     para.appendChild(text);
     displayAbbreviations();
+    setTimeout("move()", 5000);
+
 };
 

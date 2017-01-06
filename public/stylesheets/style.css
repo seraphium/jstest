@@ -1,34 +1,18 @@
 body {
-  padding: 50px;
-  font: 10pt "Lucida Grande", Helvetica, Arial, sans-serif;
+    background-color: #fff;
+    color: #000;
+    font-family: Helvetica, Arial, sans-serif;
 }
-
-a {
-  color: #00B7FF;
+h1, h2, h3 {
+    margin-bottom: .2em;
 }
-
-a:hover {
-  color: brown;
-  font-weight: bold;
+.poem {
+    margin: 0 2em;
 }
-
-p {
-  font-size:2em;
-}
-
-th,td {
-  width: 10em;
-  padding: 0.5em;
-}
-
-th {
-  border: 1px dotted #669;
-  background-color: bisque;
-}
-tr:nth-child(odd) {
-  background-color: #00B7FF;
-}
-
-tr:nth-child(even) {
-  background-color: aliceblue;
+.highlight {
+    background-color: #ccc;
+    border: 1px solid #888;
+    font-style: italic;
+    margin: 0.5em 0;
+    padding: 0.5em;
 }
