@@ -18,5 +18,8 @@ $(document).ready(function() {
         return this.hostname && this.hostname != location.hostname;
     }).addClass('external');
 
+    $('td:contains(Henry)').parent().children()
+        .addClass('highlight');
+
     console.log($('div.poem-stanza'));
 });
