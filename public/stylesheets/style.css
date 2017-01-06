@@ -16,3 +16,43 @@ h1, h2, h3 {
     margin: 0.5em 0;
     padding: 0.5em;
 }
+
+.horizontal {
+    float: left;
+    list-style: none;
+    margin: 10px;
+}
+
+.sub-level {
+    background: #ccc;
+}
+
+a {
+    color: #00c;
+}
+a.mailto {
+    color: red;
+    padding-right: 18px;
+}
+a.pdflink {
+    color: aqua;
+    padding-right: 18px;
+}
+a.henrylink {
+    background-color: #fff;
+    padding: 2px;
+    border: 1px solid #000;
+}
+
+a.external {
+    color: chartreuse;
+    background: #fff url(images/external.png) no-repeat 100% 2px;
+    padding-right: 16px;
+}
+
+tr {
+    background-color: #fff;
+}
+.alt {
+    background-color: #ccc;
+}
