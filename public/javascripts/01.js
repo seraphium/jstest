@@ -14,7 +14,7 @@ $(document).ready(function() {
 
     $('td:contains(Henry)').addClass('highlight');
 
-    $('a').filter(function() {
+    $('a').filter(function () {
         return this.hostname && this.hostname != location.hostname;
     }).addClass('external');
 
@@ -24,20 +24,72 @@ $(document).ready(function() {
     console.log($('div.poem-stanza'));
 
     $('#switcher-default').addClass('selected');
-    $('#switcher button').click(function() {
+
+    $('#switcher button').click(function (event) {
+        $('#switcher').off('click', toggleSwitcher);
+        if (this.id == 'switcher-default') {
+            $('#switcher').on('click', toggleSwitcher);
+        }
         var bodyClass = this.id.split('-')[1];
         $('body').removeClass().addClass(bodyClass);
         $('#switcher button').removeClass('selected');
         $(this).addClass('selected');
+        // event.stopPropagation();
+        return false;
     });
+});
 
-    $('#switcher h3').click(function() {
-        $('#switcher button').toggleClass('hidden');
-    });
-
-    $('#switcher h3').hover(function() {
+$(document).ready(function () {
+//在样式转换器按钮上启用悬停效果
+    $('#switcher').hover(function() {
         $(this).addClass('hover');
     }, function() {
         $(this).removeClass('hover');
     });
+
+    //让样式转换器能够扩展和折叠
+    var toggleSwitcher = function(event) {
+        if (!$(event.target).is('button')) {
+            $('#switcher button').toggleClass('hidden');
+        }};
+
+    $('#switcher').on('click', toggleSwitcher);
+    //模拟一次单击，以便开始时处理折叠状态
+    $('#switcher').click();
+
+    //setBodyClass()用于修改页面样式
+    //样式转换器的状态也会被更新
+    var setBodyClass = function(className) {
+        $('body').removeClass().addClass(className);
+        $('#switcher button').removeClass('selected');
+        $('#switcher-' + className).addClass('selected');
+        $('#switcher').off('click', toggleSwitcher);
+        if (className == 'default') {
+            $('#switcher').on('click', toggleSwitcher);
+        }
+    };
+    //开始的时候先选中switcher-default按钮
+    $('#switcher-default').addClass('selected');
+
+    //当按钮被单击时调用setBodyClass()
+    $('#switcher').click(function(event) {
+    if ($(event.target).is('button')) {
+        var bodyClass = event.target.id.split('-')[1];
+        setBodyClass(bodyClass);
+    }});
+
 });
+
+
+$(document).ready(function() {
+    var triggers = {
+        D: 'default',
+        N: 'narrow',
+        L: 'large'
+    };
+    $(document).keyup(function(event) {
+        var key = String.fromCharCode(event.which);
+        if (key in triggers) {
+            $('#switcher-' + triggers[key]).click();
+        }
+    }); });
