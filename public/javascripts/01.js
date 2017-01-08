@@ -1,7 +1,7 @@
 /**
  * Created by zezhang on 2017/1/6.
  */
-$(document).ready(function() {
+/*$(document).ready(function() {
     $('div.poem-stanza').addClass('highlight');
     $('#selected-plays > li').addClass('horizontal');
     $('#selected-plays li:not(.horizontal)').addClass('sub-level');
@@ -25,18 +25,7 @@ $(document).ready(function() {
 
     $('#switcher-default').addClass('selected');
 
-    $('#switcher button').click(function (event) {
-        $('#switcher').off('click', toggleSwitcher);
-        if (this.id == 'switcher-default') {
-            $('#switcher').on('click', toggleSwitcher);
-        }
-        var bodyClass = this.id.split('-')[1];
-        $('body').removeClass().addClass(bodyClass);
-        $('#switcher button').removeClass('selected');
-        $(this).addClass('selected');
-        // event.stopPropagation();
-        return false;
-    });
+
 });
 
 $(document).ready(function () {
@@ -52,6 +41,20 @@ $(document).ready(function () {
         if (!$(event.target).is('button')) {
             $('#switcher button').toggleClass('hidden');
         }};
+
+    $('#switcher button').click(function (event) {
+        $('#switcher').off('click', toggleSwitcher);
+        if (this.id == 'switcher-default') {
+            $('#switcher').on('click', toggleSwitcher);
+            $("body").css('fontSize', '1em');
+        }
+        var bodyClass = this.id.split('-')[1];
+        $('body').removeClass().addClass(bodyClass);
+        $('#switcher button').removeClass('selected');
+        $(this).addClass('selected');
+        // event.stopPropagation();
+        return false;
+    });
 
     $('#switcher').on('click', toggleSwitcher);
     //模拟一次单击，以便开始时处理折叠状态
@@ -93,3 +96,33 @@ $(document).ready(function() {
             $('#switcher-' + triggers[key]).click();
         }
     }); });
+
+$(document).ready(function() {
+    var $body = $('body');
+    $('#switcher-bigger').click(function() {
+        var num = parseFloat($body.css('fontSize'));
+        num *= 1.4;
+        $body.css('fontSize', num + 'px');
+    });
+    $('#switcher-smaller').click(function() {
+        var num = parseFloat($body.css('fontSize'));
+        num /= 1.4;
+        $body.css('fontSize', num + 'px');
+    });
+});
+*/
+
+$(document).ready(function() {
+    var $firstPara = $('p').eq(1);
+    $firstPara.hide();
+    $('a.more').click(function(event) {
+        event.preventDefault();
+        $firstPara.animate({height: 'toggle'}, 'slow');
+        var $link = $(this);
+        if ($link.text() == 'read more') {
+            $link.text('read less');
+        } else {
+            $link.text('read more');
+        }
+        });
+});
