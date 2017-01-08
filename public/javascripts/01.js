@@ -117,7 +117,11 @@ $(document).ready(function() {
     $firstPara.hide();
     $('a.more').click(function(event) {
         event.preventDefault();
-        $firstPara.animate({height: 'toggle'}, 'slow');
+        $firstPara.animate(
+            {
+                height: 'toggle',
+                opacity: 'toggle'
+            }, 'slow');
         var $link = $(this);
         if ($link.text() == 'read more') {
             $link.text('read less');
