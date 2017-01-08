@@ -56,3 +56,24 @@ tr {
 .alt {
     background-color: #ccc;
 }
+
+body.large .chapter {
+  font-size: 1.5em;
+}
+
+body.narrow .chapter {
+   width: 250px;
+ }
+
+.selected {
+  font-weight: bold;
+}
+
+.hidden {
+  display: none;
+}
+
+.hover {
+  cursor: pointer;
+  background-color: #afa;
+}
