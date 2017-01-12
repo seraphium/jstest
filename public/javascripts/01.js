@@ -6,6 +6,14 @@
 $(document).ready(function() {
     $('<a href="#top">back to top</a>').insertAfter('div.chapter p');
     $('<a id="top"></a>').prependTo('body');
+    $.fn.shadow.defaults.copies = 10;
+    $('h1').shadow({
+        copyOffset: function(index) {
+            return {x: -index, y: -2 * index};
+        }
+    });
+    $.sum();
+    $('h1').tooltip();
 
     $('#slider').slider({
         min: 0,
@@ -180,11 +188,79 @@ $(document).ready(function() {
         });
     };
 
+    $.fn.shadow = function(opts) {
+
+        var options = $.extend({}, $.fn.shadow.defaults, opts);
+        return this.each(function() {
+            var $originalElement = $(this);
+            for (var i = 0; i < options.copies; i++) {
+                var offset = options.copyOffset(i);
+                $originalElement
+                    .clone()
+                    .css({
+                        position: 'absolute',
+                        left: $originalElement.offset().left + offset.x,
+                        top: $originalElement.offset().top + offset.y,
+                        margin: 0,
+                        zIndex: -1,
+                        opacity: options.opacity
+                    })
+                    .appendTo('body');
+            }
+        });
+    }
+
+    $.fn.shadow.defaults = {
+        copies: 5,
+        opacity: 0.1,
+        copyOffset: function(index) {
+            return {x: index, y: index};
+        }
+    };
+
+    $.widget('ljq.tooltip', {
+        _create: function() {
+            this._tooltipDiv = $('<div></div>')
+                .addClass('ljq-tooltip-text ' +
+                    'ui-widget ui-state-highlight ui-corner-all')
+                .hide().appendTo('body');
+            this.element
+                .addClass('ljq-tooltip-trigger')
+                .on('mouseenter.ljq-tooltip',
+                    $.proxy(this._open, this))
+                .on('mouseleave.ljq-tooltip',
+                    $.proxy(this._close, this));
+        },
+        destroy: function() {
+            this._tooltipDiv.remove();
+            this.element
+                .removeClass('ljq-tooltip-trigger')
+                .off('.ljq-tooltip');
+            $.Widget.prototype.destroy.apply(this, arguments);
+        },
+        options: {
+            offsetX: 10,
+            offsetY: 10,
+            content: function() {
+                return $(this).data('tooltip-text');
+            }
+        },
+        _open: function() {
+            if (!this.options.disabled) {
+                var elementOffset = this.element.offset();
+                this._tooltipDiv.css({
+                    position: 'absolute',
+                    left: elementOffset.left + this.options.offsetX,
+                    top: elementOffset.top + this.element.height() + this.options.offsetY
+                }).text(this.options.content.call(this.element[0]));
+                this._tooltipDiv.show();
+
+            }
+
+        },
+        _close: function() {
+            this._tooltipDiv.hide();
+        }
+    });
 })(jQuery);
 
-
-$(function() {
-
-
-    $.sum();
-});
