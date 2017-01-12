@@ -6,7 +6,24 @@ $(document).ready(function() {
     $('<a href="#top">back to top</a>').insertAfter('div.chapter p');
     $('<a id="top"></a>').prependTo('body');
 
-    $('#books').cycle();
+    $('#slider').slider({
+        min: 0,
+        max: $('#books li').length - 1,
+        slide: function(event, ui) {
+            $('#books').cycle(ui.value);
+        }
+    });
+
+   $('#books').cycle({
+        timeout: 2000,
+        speed: 200,
+        pause: true,
+        before: function() {
+            $('#slider')
+                .slider('value', $('#books li').index(this));
+        }
+    });
+
 
     var $notes = $('<ol id="notes"></ol>').insertBefore('#footer');
     $('span.footnote').each(function(index) {
