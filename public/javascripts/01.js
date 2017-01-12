@@ -6,6 +6,8 @@ $(document).ready(function() {
     $('<a href="#top">back to top</a>').insertAfter('div.chapter p');
     $('<a id="top"></a>').prependTo('body');
 
+    $('#books').cycle();
+
     var $notes = $('<ol id="notes"></ol>').insertBefore('#footer');
     $('span.footnote').each(function(index) {
         $(this)
@@ -40,10 +42,15 @@ $(document).ready(function() {
             .prependTo($parentParagraph);
     });
 
+    $('body').on('click', 'h3.term', function() {
+        $(this).siblings('.definition').slideToggle();
+    });
+
     $('#letter-a a').click(function(event) {
         event.preventDefault();
-        $("#dictionary").load("a.html");
-       // alert('Loaded!');
+        $('#dictionary').hide().load('a.html', function() {
+            $(this).fadeIn();
+        });
     });
 
     $('#letter-b a').click(function(event) {
@@ -77,7 +84,11 @@ $(document).ready(function() {
 
     $('#letter-c a').click(function(event) {
         event.preventDefault();
-        $.getScript('javascripts/c.js');
+        $.getScript('javascripts/c.js').fail(function(jqXHR){
+            $('#dictionary')
+                .html('An error occurred: ' + jqXHR.status)
+                .append(jqXHR.responseText);
+        })
     });
 
     $('#letter-d a').click(function(event) {
@@ -111,6 +122,11 @@ $(document).ready(function() {
                     $('#dictionary').append($(html));
                 });
         });
+    });
+
+    $('#letter-h a').click(function(event) {
+        event.preventDefault();
+        $('#dictionary').load('h.html .entry');
     });
 
 });
