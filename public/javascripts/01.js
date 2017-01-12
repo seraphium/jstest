@@ -2,6 +2,7 @@
  * Created by zezhang on 2017/1/6.
  */
 
+
 $(document).ready(function() {
     $('<a href="#top">back to top</a>').insertAfter('div.chapter p');
     $('<a id="top"></a>').prependTo('body');
@@ -146,4 +147,44 @@ $(document).ready(function() {
         $('#dictionary').load('h.html .entry');
     });
 
+});
+
+(function($) {
+    $.sum = function(array) {
+        console.log("in jquery customized func");
+        var total = 0;
+        $.each(array, function(index, value) {
+            value = $.trim(value);
+            value = parseFloat(value) || 0;
+            total += value;
+        });
+        return total;
+    };
+
+    $.average = function(array) {
+        if ($.isArray(array)) {
+            return $.sum(array) / array.length;
+        }
+        return '';
+    };
+
+    $.fn.swapClass = function(class1, class2) {
+        return this.each(function() {
+            var $element = $(this);
+            if ($element.hasClass(class1)) {
+                $element.removeClass(class1).addClass(class2);
+            }
+            else if ($element.hasClass(class2)) {
+                $element.removeClass(class2).addClass(class1);
+            }
+        });
+    };
+
+})(jQuery);
+
+
+$(function() {
+
+
+    $.sum();
 });
