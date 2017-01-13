@@ -53,15 +53,23 @@ $(document).ready(function() {
         }
     }
 
-    $(document).ready(function() {
-        var timer = 0;
-        $(window).scroll(function() {
-            if (!timer) {
-                timer = setTimeout(function() {
-                    checkScrollPosition();
+    $.event.special.throttledScroll = {
+        setup: function(data) {
+            var timer = 0;
+            $(this).on('scroll.throttledScroll', function(event) {
+                if (!timer) {timer = setTimeout(function() {
+                    $(this).triggerHandler('throttledScroll');
                     timer = 0;
                 }, 250);
-            }
-        }).trigger('scroll');
-    });
+                }
+            });
+        },
+        teardown: function() {
+            $(this).off('scroll.throttledScroll');
+        }
+    };
+
+    $(window)
+        .on('throttledScroll', checkScrollPosition)
+        .trigger('throttledScroll');
 });
