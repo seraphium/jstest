@@ -206,3 +206,20 @@ body.narrow .chapter {
 .selected .details {
     background-color: #060;
 }
+
+
+.member {
+    position: relative;
+    overflow: hidden;
+}
+.member div{
+    position: absolute;
+    left: -300px;
+    width: 250px;
+}
+
+.member p{
+    position: absolute;
+    left: -300px;
+    width: 250px;
+}
