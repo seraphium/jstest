@@ -221,6 +221,23 @@ $(document).ready(function() {
         }
     };
 
+
+    $.fn.column = function() {
+        var $cells = $();
+        this.each(function() {
+            var $td = $(this).closest('td, th');
+            if ($td.length) {
+                var colNum = $td[0].cellIndex + 1;
+                var $columnCells = $td
+                    .closest('table')
+                    .find('td')
+                    .filter(':nth-child(' + colNum + ')');
+                $cells = $cells.add($columnCells);
+            }
+        });
+        return this.pushStack($cells);
+    };
+
     $.widget('ljq.tooltip', {
         _create: function() {
             this._tooltipDiv = $('<div></div>')
@@ -268,6 +285,7 @@ $(document).ready(function() {
     });
 
 
+
     $.extend($.expr[':'], {
         group: function(element, index, matches, set) {
             var num = parseInt(matches[3], 10);
@@ -279,11 +297,12 @@ $(document).ready(function() {
     });
 
     function stripe() {
-        $('#news').find('tr.alt').removeClass('alt');
-        $('#news tbody').each(function() {
+        $('#news')
+            .find('tr.alt').removeClass('alt').end()
+            .find('tbody').each(function() {
             $(this).children(':visible').has('td')
                 .filter(':group(2)').addClass('alt');
-        });
+        })
     }
 
     stripe();
@@ -304,6 +323,17 @@ $(document).ready(function() {
 
         }
         stripe();
+    });
+
+    var $cell = $('#release').nextAll().addBack();
+    $cell.addClass('highlight');
+    console.log($cell.context);
+    console.log($cell.selector);
+    console.log($cell.prevObject);
+
+    $('#news td').click(function() {
+        $('#news td.active').removeClass('active');
+        $(this).column().addClass('active');
     });
 
 })(jQuery);
