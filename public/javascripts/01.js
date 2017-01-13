@@ -14,6 +14,9 @@ $(document).ready(function() {
     });
     $.sum();
     $('h1').tooltip();
+    $('h1').on("tooltipopen", function()  {
+        console.log("on tooltip open");
+    });
 
     $('#slider').slider({
         min: 0,
@@ -254,13 +257,54 @@ $(document).ready(function() {
                     top: elementOffset.top + this.element.height() + this.options.offsetY
                 }).text(this.options.content.call(this.element[0]));
                 this._tooltipDiv.show();
-
+                this._trigger("open");
             }
 
         },
         _close: function() {
             this._tooltipDiv.hide();
+            this._trigger("close");
         }
     });
+
+
+    $.extend($.expr[':'], {
+        group: function(element, index, matches, set) {
+            var num = parseInt(matches[3], 10);
+            if (isNaN(num)) {
+                return false;
+            }
+            return index % (num * 2) <num;
+        }
+    });
+
+    function stripe() {
+        $('#news').find('tr.alt').removeClass('alt');
+        $('#news tbody').each(function() {
+            $(this).children(':visible').has('td')
+                .filter(':group(2)').addClass('alt');
+        });
+    }
+
+    stripe();
+
+
+    $('#topics a').click(function(event) {
+        event.preventDefault();
+
+        var topic = $(this).text();
+
+        $('#topics a.selected').removeClass('selected');
+        $(this).addClass('selected');
+        $('#news').find('tr').show();
+        if (topic != 'All') {
+            $('#news').find('tr:has(td)').not(function() {
+                return $(this).children(':nth-child(4)').text() == topic;
+            }).hide();
+
+        }
+        stripe();
+    });
+
 })(jQuery);
 
