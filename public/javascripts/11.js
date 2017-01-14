@@ -36,18 +36,53 @@ $(document).ready(function() {
             top: 0
         }).each(function (index) {
             $(this).animate({
-                left: '150px',
+                left: 100,
                 top: 25 * index
             },  {
                 duration: 'slow',
                 specialEasing: {
                     top: 'easeInQuart'
                 }
-                });
+                }).promise().done(showBio);
         });
     }
 
     $('div.member').click(showDetails);
+
+    var $movable = $('<div id="movable"></div>')
+        .appendTo('body');
+    var bioBaseStyles = {
+            display: 'none',
+            position: 'absolute',
+            height: '5px',
+            width: '25px'
+        },
+        bioEffects = {
+            duration: 800,
+            easing: 'easeOutQuart',
+            specialEasing: {
+                opacity: 'linear'
+            }
+        };
+
+    function showBio() {
+        var $member = $(this).parent(),
+            $bio = $member.find('p.bio'),
+            startStyles = $.extend(bioBaseStyles, $member.offset()),
+            endStyles = {
+                width: $bio.width(),
+                top: $member.offset().top + 5,
+                left: 300 ,
+                opacity: 'show'
+            };
+            $movable
+            .html($bio.clone())
+            .css(startStyles)
+            .animate(endStyles, bioEffects)
+            .animate({height: $bio.height()}, {easing: 'easeOutQuart'});
+
+    }
+
 
 
 });
