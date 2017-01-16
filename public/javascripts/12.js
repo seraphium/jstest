@@ -68,4 +68,54 @@ $(function () {
         });
     });
 
+    var div = document.createElement('div');
+    $.support.textShadow = div.style.textShadow === '';
+    $.support.filter = div.style.filter === '';
+    div = null;
+    if ($.support.textShadow) {
+        $.cssHooks.glowColor = {
+            set: function(elem, value) {
+                if (value == 'none') {
+                    elem.style.textShadow = '';
+                }
+                else {
+                    elem.style.textShadow = '0 0 2px ' + value;
+                }
+            }
+        };
+    }
+    else {
+        $.cssHooks.glowColor = {
+            set: function(elem, value) {
+                if (value == 'none') {
+                    elem.style.filter = '';
+                }
+                else {
+                    elem.style.zoom = 1;
+                    elem.style.filter =
+                        'progid:DXImageTransform.Microsoft' +
+                        '.Glow(Strength=2, Color=' + value + ');';
+                }
+            }
+        };
+    }
+
+
+    $('table').each(function(index) {
+        var $table = $(this);
+        $('<h3></h3>', {
+            id: 'table-title-' + index,
+            'class': 'table-title',
+            text: 'Table ' + (index + 1),
+            data: {'index': index},
+            click: function (event) {
+                event.preventDefault();
+                $table.fadeToggle();
+            },
+            css: {glowColor: '#00ff00'}
+        }).insertBefore($table)
+    });
+
+
+
 })(jQuery);
