@@ -15,3 +15,17 @@ test('Attribute Selectors', function() {
     equal(this.topLis.find('.pdflink').length, 1, 'a.pdflink');
 });
 module('Ajax');
+asyncTest('JSON', function() {
+    expect(2);
+    var backbite = {
+        "term": "BACKBITE",
+        "part": "v.t.",
+        "definition": "To speak of a man as you find him when..."
+    };
+    $.getJSON('b.json', function(json, textStatus) {
+        equal(textStatus, 'success', 'Request successful');
+        deepEqual(json[1], backbite,
+            'result array matches "backbite" map');
+    }).always(function() {
+        start();
+    }); });
